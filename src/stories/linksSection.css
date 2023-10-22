@@ -1,0 +1,14 @@
+.wrapper-urls {
+
+  max-height: 50vh; /* Set the maximum height to 50% of the viewport height */
+  overflow-y: auto; /* Add a vertical scrollbar when content overflows */
+}
+
+.content{ 
+  display: flex;
+  gap: 40px;
+}
+
+.content * {
+  align-self: center
+}

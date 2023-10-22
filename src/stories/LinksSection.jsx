@@ -60,4 +60,5 @@ LinksSection.defaultProps = {
   primary: false,
   size: 'medium',
   onClick: undefined,
+  urls: []
 };

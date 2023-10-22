@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import './user-interface.css';
 import './button.css'
 import {Button} from './Button'
-import { MyForm } from './Form';
 
 
 
@@ -25,7 +24,6 @@ export const UserInterface = () => {
 
     
     console.log('test')
-    console.log(apiKey)
 
     function handleButtonCall(agentId, apiKey, environment){ 
       console.log('something')
@@ -34,16 +32,12 @@ export const UserInterface = () => {
 
   return (
     <div> 
-      <MyForm agentId={agentId} apiKey={apiKey} environment={environment}
-              setAgentId={setAgentId} setApiKey={setApiKey} setEnvironment={setEnvironment}> 
-      </MyForm>
       <Button 
       primary={true} 
       label={"Get Agent Data"} 
       backgroundColor={"#4d4dff"} 
       size={"large"}> 
       onClick = {handleButtonCall}
-      agentId={agentId} apiKey={apiKey} environment={environment}
     </Button>
     </div>
     

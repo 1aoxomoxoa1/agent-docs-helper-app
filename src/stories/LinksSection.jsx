@@ -18,12 +18,15 @@ export const LinksSection = ({urls}) => {
   
   return (
     <div className='wrapper-urls'> 
-      {urls.map((item, index) => (
+      {urls.length > 0 ?
+      urls.map((item, index) => (
         <div key={index} className='content'> 
           <p>{item['url']}</p>
           <div> <span style={{color: statusTranslator.get(item['status'])}}> {item['status']} </span> </div>
         </div>
-        ))}
+        ))
+      :
+      <></>}
     </div>    
   );
 };

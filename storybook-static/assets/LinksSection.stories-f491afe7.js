@@ -1,4 +1,4 @@
-import{L as b}from"./LinksSection-eff84995.js";import"./jsx-runtime-ffb262ed.js";import"./index-76fb7be0.js";import"./_commonjsHelpers-de833af9.js";import"./index-8d47fad6.js";const x={title:"Example/LinksSection",component:b,parameters:{layout:"centered"},tags:["autodocs"],argTypes:{backgroundColor:{control:"color"}}},r={args:{primary:!0,label:"Button"}},e={args:{label:"Button"}},a={args:{size:"large",label:"Button"}},o={args:{size:"small",label:"Button"}};var s,t,n;r.parameters={...r.parameters,docs:{...(s=r.parameters)==null?void 0:s.docs,source:{originalSource:`{
+import{L as b}from"./LinksSection-58175971.js";import"./jsx-runtime-ffb262ed.js";import"./index-76fb7be0.js";import"./_commonjsHelpers-de833af9.js";import"./index-8d47fad6.js";const x={title:"Example/LinksSection",component:b,parameters:{layout:"centered"},tags:["autodocs"],argTypes:{backgroundColor:{control:"color"}}},r={args:{primary:!0,label:"Button"}},e={args:{label:"Button"}},a={args:{size:"large",label:"Button"}},o={args:{size:"small",label:"Button"}};var s,t,n;r.parameters={...r.parameters,docs:{...(s=r.parameters)==null?void 0:s.docs,source:{originalSource:`{
   args: {
     primary: true,
     label: 'Button'
@@ -18,4 +18,4 @@ import{L as b}from"./LinksSection-eff84995.js";import"./jsx-runtime-ffb262ed.js"
     label: 'Button'
   }
 }`,...(S=(g=o.parameters)==null?void 0:g.docs)==null?void 0:S.source}}};const _=["Primary","Secondary","Large","Small"];export{a as Large,r as Primary,e as Secondary,o as Small,_ as __namedExportsOrder,x as default};
-//# sourceMappingURL=LinksSection.stories-310379b7.js.map
+//# sourceMappingURL=LinksSection.stories-f491afe7.js.map

@@ -51,6 +51,16 @@
   margin: 10px 0px;
 }
 
+.error-ctr{
+  display: flex;
+  justify-content: center;
+}
+
+.get-data-btn-ctr{
+  display: flex;
+  justify-content: center;
+}
+
 .header * {
   width: 50%;
 }

@@ -24,8 +24,8 @@ export const LinksSection = ({urls}) => {
       urls.map((item, index) => (
         <div key={index} className='content'>
           <div style={{display: 'flex', gap: "10px", alignItems:'center'}} className='url-label'> 
-            <span> {item['url']}</span>
-            <a href={item['url']} target='blank'>
+            <span> {item['displayName']}</span>
+            <a href={item['displayName']} target='blank'>
             <div>
               <svg
                 width="15"  // Set the desired width

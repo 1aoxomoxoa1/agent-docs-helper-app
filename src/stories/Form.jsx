@@ -6,7 +6,7 @@ import axios from 'axios';
 import { LinksSection } from './LinksSection';
 
 
-async function callApi(agentId, apiKey, environment, setDataOut, setAgentName){
+async function callApi(agentId, apiKey, environment, setDataOut, setAgentName, agentError, setAgentError){
   const base_url = "https://api.oneai.com/agent/v1"
   console.log(environment)
 
@@ -18,6 +18,7 @@ async function callApi(agentId, apiKey, environment, setDataOut, setAgentName){
   const url = `${base_url}/list/documents?agent_id=${agentId}`;
 
   try {
+
     const response = await axios.get(url, { headers });
     // Handle the response data here
     console.log(response.data);
@@ -25,10 +26,11 @@ async function callApi(agentId, apiKey, environment, setDataOut, setAgentName){
 
     for (const data of response.data) {
       let dataToAppend = {
-        url: data['url'],
+        displayName: data['display_name'],
         agentId: data['agent_id'],
         documentId: data['document_id'],
-        status: data['status']
+        status: data['status'],
+        documentType: data['document_type']
       }
 
       dataNeeded.push(dataToAppend)
@@ -53,9 +55,14 @@ async function callApi(agentId, apiKey, environment, setDataOut, setAgentName){
 
     setDataOut(combinedArray)
 
+    if(agentError === true){
+      setAgentError(false)
+    }
+    
   } catch (error) {
     // Handle any errors here
     console.error('Axios error:', error);
+    setAgentError(true)
   }
 }
 
@@ -71,12 +78,13 @@ export const MyForm = () => {
   const [environment, setEnvironment] = useState('production');
   const [query, setQueryBy] = useState('completed')
   const [dataOut, setDataOut] = useState([])
-  const [agentName, setAgentName] = useState([])
+  const [agentName, setAgentName] = useState("")
+  const [agentError, setAgentError] = useState(false)
 
   function checkStates(){ 
     console.log('working working in checkStates:')
     console.log(agentId, apiKey, environment)
-    callApi(agentId, apiKey, environment, setDataOut, setAgentName)
+    callApi(agentId, apiKey, environment, setDataOut, setAgentName, agentError, setAgentError)
   }
 
   function goBackCalled(){
@@ -118,6 +126,19 @@ export const MyForm = () => {
     dataOut.length === 0 ? (
     <div>
       <div className='form-container'>
+      <div className='error-ctr'>
+        { agentError == true ? 
+          <Button 
+            primary={true} 
+            label={"Not Found"} 
+            backgroundColor={"#FF0000"} 
+            size={"small"}
+            style={{"text-align": "center"}}
+          >
+          </Button>
+          : <></>
+        }
+      </div>
       <div>
         <label htmlFor="agentId" className='label-myForm'>Agent ID:</label>
         <input
@@ -150,13 +171,15 @@ export const MyForm = () => {
           <option value="staging">Staging</option>
         </select>
       </div>
-      <Button 
-        primary={true} 
-        label={"Get Agent Data"} 
-        backgroundColor={"#4d4dff"} 
-        size={"large"}
-        onClick = {() => checkStates()}>
-    </Button>
+      <div className='get-data-btn-ctr'>
+        <Button 
+          primary={true} 
+          label={"Get Agent Data"} 
+          backgroundColor={"#4d4dff"} 
+          size={"large"}
+          onClick = {() => checkStates()}>
+      </Button>
+    </div>
     </div>
     </div>
   )

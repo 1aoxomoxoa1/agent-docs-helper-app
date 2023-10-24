@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 import './linksSection.css';
+import { linkIcon } from '../assets/linksvg';
+
 /**
  * Primary UI component for user interaction
  */
@@ -12,7 +14,7 @@ export const LinksSection = ({urls}) => {
   let statusTranslator = new Map([
     ["failed", 'red' ],
     ["completed", 'green'],
-    ["processing", 'dark grey']
+    ["processing", 'gray']
   ])
 
   
@@ -20,9 +22,22 @@ export const LinksSection = ({urls}) => {
     <div className='wrapper-urls'> 
       {urls.length > 0 ?
       urls.map((item, index) => (
-        <div key={index} className='content'> 
-          <p>{item['url']}</p>
-          <div> <span style={{color: statusTranslator.get(item['status'])}}> {item['status']} </span> </div>
+        <div key={index} className='content'>
+          <div style={{display: 'flex', gap: "10px", alignItems:'center'}} className='url-label'> 
+            <span> {item['url']}</span>
+            <a href={item['url']} target='blank'>
+            <div>
+              <svg
+                width="15"  // Set the desired width
+                height="15" // Set the desired height
+                fill='black'
+                xmlns="http://www.w3.org/2000/svg"
+                dangerouslySetInnerHTML={{ __html: linkIcon }}
+              />
+            </div>
+            </a>
+          </div>
+          <div> <span style={{color: statusTranslator.get(item["status"])}}> {item['status']} </span> </div>
         </div>
         ))
       :
@@ -47,7 +62,6 @@ LinksSection.propTypes = {
   /**
    * Button contents
    */
-  label: PropTypes.string.isRequired,
   /**
    * Optional click handler
    */

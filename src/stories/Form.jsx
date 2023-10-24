@@ -6,7 +6,7 @@ import axios from 'axios';
 import { LinksSection } from './LinksSection';
 
 
-async function callApi(agentId, apiKey, environment, setDataOut){
+async function callApi(agentId, apiKey, environment, setDataOut, setAgentName){
   const base_url = "https://api.oneai.com/agent/v1"
   console.log(environment)
 
@@ -30,10 +30,28 @@ async function callApi(agentId, apiKey, environment, setDataOut){
         documentId: data['document_id'],
         status: data['status']
       }
+
       dataNeeded.push(dataToAppend)
     }
 
-    setDataOut(dataNeeded)
+    const completedItems = dataNeeded.filter((item) => item['status'] === 'completed')
+    const nonCompletedItems = dataNeeded.filter((item) => item['status'] !== 'completed')
+    const combinedArray = completedItems.concat(nonCompletedItems)
+
+    
+    const url2 = `${base_url}/agent/${agentId}`
+
+    const response2 = await axios.get(url2, { headers });
+
+    console.log(response2.data)
+    let agent_name = response2.data['public_name']
+    setAgentName(agent_name)
+
+
+   console.log(typeof combinedArray)
+   console.log(combinedArray)
+
+    setDataOut(combinedArray)
 
   } catch (error) {
     // Handle any errors here
@@ -53,13 +71,17 @@ export const MyForm = () => {
   const [environment, setEnvironment] = useState('production');
   const [query, setQueryBy] = useState('completed')
   const [dataOut, setDataOut] = useState([])
+  const [agentName, setAgentName] = useState([])
 
   function checkStates(){ 
     console.log('working working in checkStates:')
     console.log(agentId, apiKey, environment)
-    callApi(agentId, apiKey, environment, setDataOut)
+    callApi(agentId, apiKey, environment, setDataOut, setAgentName)
   }
 
+  function goBackCalled(){
+    setDataOut([])
+  }
 
   const handleAgentIdChange = (e) => {
     console.log('calling')
@@ -140,44 +162,56 @@ export const MyForm = () => {
   )
   : ( 
   <div> 
-    <div className='header'> 
-      <div className='table-sec'> 
-        <table className="data-table">
-        <tbody>
-          <tr>
-            <td>Completed</td>
-            <td>{dataOut.filter((data) => data["status"] === 'completed').length}</td>
-          </tr>
-          <tr>
-            <td>Failed</td>
-            <td>{dataOut.filter((data) => data["status"] === 'failed').length}</td>
-          </tr>
-          {dataOut.filter((data) => data["status"] === 'processing').length > 0 ? (
-            <tr>
-              <td>Processing</td>
-              <td>{dataOut.filter((data) => data["status"] === 'processing').length}</td>
-            </tr>
-          ) : null}
-          <tr>
-            <td> <b> Total </b></td>
-            <td>{dataOut.length}</td>
-          </tr>
-        </tbody>
-        </table>
+    <div> 
+      <div> 
+        <Button 
+          primary={true} 
+          label={"Back"} 
+          backgroundColor={"#4d4dff"} 
+          size={"small"}
+          onClick = {() => goBackCalled()}>
+        </Button>
+        <h2>agent: {agentName}</h2>
       </div>
-      <div className='sorting-div'>
-        <label htmlFor="sorting">See By:</label>
-        <select
-            id="sorting"
-            className='input-select-myForm-2'
-            value={query}
-            onChange={handleQueryChange}
-          >
-            <option value="completed">Completed</option>
-            <option value="failed">Failed</option>
-            <option value="processing">Processing</option>
-          </select>
+      <div className='header'> 
+        <div className='table-sec'> 
+          <table className="data-table">
+          <tbody>
+            <tr>
+              <td>Completed</td>
+              <td>{dataOut.filter((data) => data["status"] === 'completed').length}</td>
+            </tr>
+            <tr>
+              <td>Failed</td>
+              <td>{dataOut.filter((data) => data["status"] === 'failed').length}</td>
+            </tr>
+            {dataOut.filter((data) => data["status"] === 'processing').length > 0 ? (
+              <tr>
+                <td>Processing</td>
+                <td>{dataOut.filter((data) => data["status"] === 'processing').length}</td>
+              </tr>
+            ) : null}
+            <tr>
+              <td> <b> Total </b></td>
+              <td> <b>{dataOut.length} </b></td>
+            </tr>
+          </tbody>
+          </table>
         </div>
+        <div className='sorting-div'>
+          <label htmlFor="sorting">See By:</label>
+          <select
+              id="sorting"
+              className='input-select-myForm-2'
+              value={query}
+              onChange={handleQueryChange}
+            >
+              <option value="completed">Completed</option>
+              <option value="failed">Failed</option>
+              <option value="processing">Processing</option>
+            </select>
+          </div>
+      </div>
     </div>
     <LinksSection urls={dataOut}> </LinksSection>
   </div>

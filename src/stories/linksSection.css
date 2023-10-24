@@ -12,3 +12,7 @@
 .content * {
   align-self: center
 }
+
+.url-label{
+  margin: 7px 0px;
+}
